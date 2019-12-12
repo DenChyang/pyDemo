@@ -1,6 +1,4 @@
-# if逻辑运算
 you = input("你去么?") # 去或者不去
-
 yourWife = input("你老婆去么?") #去或者不去
 
 #if you=="去" 或者 yourWife=="去":
