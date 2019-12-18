@@ -46,6 +46,8 @@ bed2 = Bed("三人床",3)
 fangzi.add_item(bed2)
 print(fangzi)
 
+print(Bed.__mro__)
+
 
 
 
