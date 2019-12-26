@@ -2,8 +2,8 @@ import os
 import multiprocessing
 
 def copyFileTask(name,oldFile,newFile,queue):
-    fr = open(oldFile+"/"+name)
-    fw = open(newFile+"/"+name,"w")
+    fr = open(oldFile+"/"+name,encoding="utf-8")
+    fw = open(newFile+"/"+name,"w",encoding="utf-8")
     content = fr.read()
     fw.write(content)
     fr.close()
@@ -25,12 +25,21 @@ def main():
     fileName = os.listdir(old_file)
     # 3.使用多进程进行copy文件
     pool= multiprocessing.Pool(5)
-    queue = multiprocessing.Manager().Queue(50)
+    queue = multiprocessing.Manager().Queue()
     for name in fileName:
         pool.apply_async(copyFileTask,args=(name,old_file,new_file,queue))
-    # queue.get()
-    pool.close()
-    pool.join()
+
+    num = 0
+    allCount = len(fileName)
+
+    while num < allCount:
+        queue.get()
+        num+= 1
+        copyRate = num/allCount *100
+        print("\r 复制文件进度：%.2f %% "%copyRate,end="")
+
+    # pool.close()
+    # pool.join()
 if __name__ == '__main__':
     main()
 

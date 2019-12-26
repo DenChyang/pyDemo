@@ -2,12 +2,10 @@ import multiprocessing
 # from multiprocessing import Pool
 import os
 
-# TODO 这段多进程复制文件有问题，后期更改
-
 def copyTask(name,oldFolderName,newFolderName):
     print(name)
-    fr = open(oldFolderName+"/"+name)
-    fw = open(newFolderName+"/"+name,"w")
+    fr = open(oldFolderName+"/"+name,encoding="utf-8")
+    fw = open(newFolderName+"/"+name,"w",encoding="utf-8")
     print()
     content = fr.read()
     fw.write(content)
