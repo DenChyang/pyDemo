@@ -1,7 +1,7 @@
 #coding=utf-8
 import threading
 import time
-
+# 多线程程序的执⾏顺序是不确定的。
 class MyThread(threading.Thread):
     def run(self):
         for i in range(3):
