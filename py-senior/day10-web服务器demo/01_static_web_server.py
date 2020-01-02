@@ -5,11 +5,12 @@
 # @File    : 01_static_web_server.py
 
 # 创建tcp socket服务器
-# TODO:最后一课没看完，代码没写完
+# 完成版
 import socket
+import re
 from multiprocessing import Process
 
-HTML_ROOT_DIR = ""
+HTML_ROOT_DIR = "D:\\mycode\\python\\pyDemo\\py-senior\\day10-web服务器demo\\resource\\"
 
 
 def handle_cli(cli_socket):
@@ -22,11 +23,33 @@ def handle_cli(cli_socket):
     request = cli_socket.recv(1024)
     # request_data = recv()
     print("request:",request)
-    # print(request_data)
-    # 解析HTTP报文数据
-    response_start_line = "HTTP/1.1 200 OK\r\n"
-    response_srart_headers = "Server: my server\r\n"
-    response_body = "this is my server"
+    request_lines = request.splitlines()
+    for line in request_lines:
+        pass
+    # 解析请求报文
+    # GET / HTTP/1.1
+    request_start_line = request_lines[0]
+    # 获取用户请求的文件名-->使用正则获取
+    file_name = re.match(r"\w+ +(/[^ ]*) ",request_start_line.decode("utf-8")).group(1)
+    if file_name =="/":
+        file_name = "index.html"
+    # 打开文件
+    try:
+        file = open(HTML_ROOT_DIR+file_name,"rb")
+    except IOError:
+        response_start_line = "HTTP/1.1 404 Not Found\r\n"
+        response_srart_headers = "Server: my server\r\n"
+        file_data = "404 not fount"
+    else:
+        # print(request_data)
+        # 解析HTTP报文数据
+        response_start_line = "HTTP/1.1 200 OK\r\n"
+        response_srart_headers = "Server: my server\r\n"
+        file_data = (file.read()).decode("utf-8")
+        file.close()
+
+    # response_body = "this is my server"
+    response_body = file_data
     response = response_start_line + response_srart_headers + "\r\n" + response_body
     print("response:",response)
     cli_socket.send(bytes(response,"utf-8"))
