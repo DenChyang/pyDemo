@@ -9,7 +9,6 @@
 import socket
 import re
 from multiprocessing import Process
-import tbpy
 
 HTML_ROOT_DIR = "D:\\mycode\\python\\pyDemo\\py-senior\\day10-web服务器demo\\resource\\"
 
